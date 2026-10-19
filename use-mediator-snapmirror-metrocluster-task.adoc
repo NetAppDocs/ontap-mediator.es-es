@@ -1,0 +1,50 @@
+---
+permalink: use-mediator-snapmirror-metrocluster-task.html 
+sidebar: sidebar 
+keywords: ONTAP, mediator, SnapMirror active sync, MetroCluster IP, quorum witness, MAUSO 
+summary: Descubre cómo ONTAP Mediator supervisa las relaciones de sincronización activa de SnapMirror y las configuraciones IP de MetroCluster, y cuántas de cada una puede supervisar simultáneamente una sola instancia. 
+---
+= Utiliza ONTAP Mediator para la sincronización activa de SnapMirror y MetroCluster IP
+:allow-uri-read: 
+:icons: font
+:imagesdir: ./media/
+
+
+[role="lead"]
+ONTAP Mediator se ejecuta en un host Linux en un tercer dominio de fallos, independiente de tus clústeres de ONTAP, donde proporciona un almacén persistente y aislado para los metadatos de alta disponibilidad (HA). ONTAP utiliza este almacén, junto con las funciones de consulta del estado de los nodos y de proxy de ping de Mediator, para supervisar las relaciones de sincronización activa de SnapMirror y las configuraciones IP de MetroCluster.
+
+
+NOTE: Esta documentación se refiere a la versión on-premises de ONTAP Mediator. Para obtener información sobre ONTAP Cloud Mediator, disponible a partir de ONTAP 9.17.1, consulta link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/index.html["SnapMirror documentación de active sync"^].
+
+
+
+[[monitor-snapmirror-active-sync-relationships]]
+== Supervisar las relaciones de sincronización activa de SnapMirror
+
+SnapMirror active sync utiliza ONTAP Mediator como testigo pasivo de las copias principal y espejo en un grupo de consistencia. Si se produce una partición de red o una de las copias deja de estar disponible, SnapMirror active sync consulta a ONTAP Mediator para determinar qué copia sigue atendiendo la E/S y detiene la E/S en la otra copia.
+
+A partir de ONTAP 9.8, puedes utilizar cualquier versión de ONTAP Mediator para supervisar una relación de sincronización activa de SnapMirror.
+
+
+NOTE: Para conocer los límites en cuanto al número de pares de clústeres de sincronización activa de SnapMirror que puede supervisar una sola instancia de ONTAP Mediator, consulta link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/limits-reference.html["Límites de objetos para ONTAP SnapMirror active sync"^].
+
+link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/mediator-install-task.html["Configura ONTAP Mediator para SnapMirror active sync"^]
+
+
+
+[[monitor-metrocluster-ip-configurations]]
+== Supervisa las configuraciones IP de MetroCluster
+
+En una configuración IP de MetroCluster, ONTAP Mediator almacena información de estado sobre los nodos de MetroCluster en LUN de buzón y ayuda a los nodos con una conmutación de sitios automática no planificada asistida por Mediator (MAUSO) en caso de desastre o de situaciones específicas de fallo.
+
+A partir de ONTAP 9.19.1 y ONTAP Mediator 1.12, puedes configurar un ONTAP Mediator que use HTTPS para la comunicación a fin de supervisar tu configuración IP de MetroCluster. Al configurar ONTAP Mediator con el protocolo iSCSI, puedes usar cualquier versión de ONTAP Mediator para supervisar una configuración IP de MetroCluster.
+
+
+NOTE: Para conocer los límites en cuanto al número de configuraciones de IP de MetroCluster que puede supervisar una única instancia de ONTAP Mediator, consulte link:https://docs.netapp.com/us-en/ontap-metrocluster/install-ip/concept_mediator_requirements.html#mediator-multiple-mccip["Utiliza ONTAP Mediator para supervisar varias configuraciones de MetroCluster IP"^]
+
+link:https://docs.netapp.com/us-en/ontap-metrocluster/install-ip/concept_mediator_requirements.html["Configura ONTAP Mediator para una configuración IP de MetroCluster"^]
+
+.Información relacionada
+* link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/architecture-concept.html["Arquitectura de sincronización activa de ONTAP SnapMirror"^]
+* link:https://docs.netapp.com/us-en/ontap-metrocluster/install-ip/concept-ontap-mediator-supports-automatic-unplanned-switchover.html["Descubre cómo ONTAP Mediator admite la conmutación de sitios automática no planificada en una configuración IP de MetroCluster"^]
+

@@ -1,0 +1,181 @@
+---
+permalink: install/verify-code-signature-task.html 
+sidebar: sidebar 
+keywords: mediator, new, release, update, install, verify, code, signature 
+summary: Debes verificar la firma del código de ONTAP Mediator antes de instalar el paquete de instalación de Mediator. 
+---
+= Verifica la firma del código de ONTAP Mediator
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp recomienda verificar la firma del código de ONTAP Mediator antes de la instalación. Este paso es opcional.
+
+.Antes de empezar
+Asegúrate de que tu sistema cumple estos requisitos antes de verificar la firma del código de ONTAP Mediator.
+
+[NOTE]
+====
+* A partir del 15 de junio de 2025, no puedes instalar ni actualizar a ONTAP Mediator 1.9 y 1.8 porque los certificados de verificación de firma de código han caducado. En su lugar, instala o actualiza a ONTAP Mediator 1.10 o posterior.
+* Si el sistema no cumple los requisitos que se indican a continuación, no es necesario realizar el proceso de verificación y puedes acceder directamente a link:install-mediator-pkg-task.html["Instala el paquete de instalación de ONTAP Mediator"].
+
+
+====
+* Versiones de openssl 1.0.2 a 3.0 para la verificación básica
+* openssl versión 1.1.0 o posterior para las operaciones de la Autoridad de Sello de Tiempo (TSA)
+* Acceso público a internet para la verificación de OCSP
+
+
+El paquete de descarga incluye los siguientes archivos:
+
+[cols="50,50"]
+|===
+
+
+| Archivo | Descripción 
+
+
+ a| 
+`ONTAP-Mediator-production.pub`
+ a| 
+La clave pública utilizada para verificar la firma
+
+
+
+ a| 
+`csc-prod-chain-ONTAP-Mediator.pem`
+ a| 
+La cadena de confianza de la CA de certificación pública
+
+
+
+ a| 
+`csc-prod-ONTAP-Mediator.pem`
+ a| 
+El certificado utilizado para generar la clave
+
+
+
+ a| 
+`ontap-mediator-1.12.1`
+ a| 
+El ejecutable de instalación del producto para la versión 1.12
+
+
+
+ a| 
+`ontap-mediator-1.12.1.sig`
+ a| 
+La firma del instalador, a la que se le ha aplicado un hash SHA-256 y luego se ha firmado con RSA usando la clave csc-prod
+
+
+
+ a| 
+`ontap-mediator-1.12.1.sig.tsr`
+ a| 
+La solicitud de revocación que utilizará OCSCP para la firma del instalador
+
+
+
+ a| 
+`ontap-mediator-1.12.1.tsr`
+ a| 
+El archivo de solicitud de firma con marca de tiempo
+
+
+
+ a| 
+`tsa-prod-ONTAP-Mediator.pem`
+ a| 
+El certificado público del TSR
+
+
+
+ a| 
+`tsa-prod-chain-ONTAP-Mediator.pem`
+ a| 
+La cadena de certificados públicos de la CA para el TSR
+
+|===
+.Pasos
+. Realiza la comprobación de revocación en `csc-prod-ONTAP-Mediator.pem` utilizando Online Certificate Status Protocol (OCSP).
++
+.. Busca la URL de OCSP del certificado. Es posible que los certificados de desarrollador no proporcionen un URI:
++
+[source, cli]
+----
+openssl x509 -noout -ocsp_uri -in csc-prod-chain-ONTAP-Mediator.pem
+----
+.. Genera una solicitud OCSP para el certificado.
++
+[source, cli]
+----
+openssl ocsp -issuer csc-prod-chain-ONTAP-Mediator.pem -CAfile csc-prod-chain-ONTAP-Mediator.pem -cert csc-prod-ONTAP-Mediator.pem  -reqout req.der
+----
+.. Conéctate al OCSP Manager para enviar la solicitud OCSP:
++
+[source, cli]
+----
+openssl ocsp -issuer csc-prod-chain-ONTAP-Mediator.pem -CAfile csc-prod-chain-ONTAP-Mediator.pem -cert csc-prod-ONTAP-Mediator.pem  -url ${ocsp_uri} -resp_text -respout resp.der -verify_other csc-prod-chain-ONTAP-Mediator.pem
+----
+
+
+. Comprueba la cadena de confianza del CSC y las fechas de caducidad con respecto al host local:
++
+[source, cli]
+----
+openssl verify
+----
++
+
+NOTE: La versión de  `openssl` PATH debe tener un  `cert.pem` válido (que no sea autofirmado).
+
++
+[source, cli]
+----
+openssl verify -untrusted csc-prod-chain-ONTAP-Mediator.pem -CApath ${OPENSSLDIR} csc-prod-ONTAP-Mediator.pem
+openssl verify -untrusted tsa-prod-chain-ONTAP-Mediator.pem -CApath ${OPENSSLDIR} tsa-prod-ONTAP-Mediator.pem
+----
++
+El comando falla si el certificado de comprobación de la firma del código o el certificado de marca de tiempo ha caducado o no es válido. Descarga una versión más reciente de ONTAP Mediator.
+
+. Verifica los archivos `ontap-mediator-1.12.1.sig.tsr` y `ontap-mediator-1.12.1.tsr` usando los certificados asociados:
++
+[role="tabbed-block"]
+====
+.OpenSSL 3.x
+--
+[source, cli]
+----
+openssl ts -verify -data ontap-mediator-1.12.1.sig -in ontap-mediator-1.12.1.sig.tsr -CAfile tsa-prod-chain-ONTAP-Mediator.pem -untrusted tsa-prod-ONTAP-Mediator.pem
+----
+--
+.OpenSSL 1.x
+--
+[source, cli]
+----
+openssl ts -verify -data ontap-mediator-1.12.1 -in ontap-mediator-1.12.1.tsr -CAfile tsa-prod-chain-ONTAP-Mediator.pem -partial_chain
+----
+--
+====
++
+
+NOTE: `.tsr` archivos contienen la respuesta de marca de tiempo asociada al instalador y la firma de código. El procesamiento confirma que la marca de tiempo tiene una firma válida de TSA y que tu archivo de entrada no ha cambiado. Tu equipo realiza la verificación localmente. No necesitas acceder a los servidores de TSA.
+
+. Verifica las firmas con la clave:
++
+[source, cli]
+----
+openssl -dgst -verify
+----
++
+[source, cli]
+----
+openssl dgst -sha256 -verify ONTAP-Mediator-production.pub -signature ontap-mediator-1.12.1.sig ontap-mediator-1.12.1
+----
+
+
+.¿Y ahora qué?
+link:install-mediator-pkg-task.html["Instala el paquete de instalación de ONTAP Mediator"]

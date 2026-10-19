@@ -1,0 +1,313 @@
+---
+permalink: install/prepare-install.html 
+sidebar: sidebar 
+keywords: ontap mediator, install requirements, mediator requirements 
+summary: Para instalar ONTAP Mediator, debes asegurarte de cumplir todos los requisitos previos, obtener el paquete de instalación y ejecutar el instalador en el host. 
+---
+= Prepárate para instalar ONTAP Mediator
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para instalar ONTAP Mediator, debes cumplir todos los requisitos previos, descargar el paquete de instalación y ejecutar el instalador en el host.
+
+[NOTE]
+====
+* Para actualizar ONTAP Mediator a una nueva versión, consulta link:../administer/upgrade-ontap-mediator-task.html["Actualizar ONTAP Mediator"].
+* Si necesitas actualizar el sistema operativo del host y reinstalar o actualizar ONTAP Mediator como parte de ese proceso, consulta link:../administer/upgrade-host-os-mediator-task.html["Actualizar el SO host y ONTAP Mediator"].
+
+
+====
+
+
+[[installation-requirements]]
+== Requisitos de instalación
+
+Revisa los siguientes requisitos antes de instalar ONTAP Mediator.
+
+[NOTE]
+====
+* ONTAP Mediator 1.8 y versiones anteriores no es compatible con el modo FIPS de Red Hat Enterprise Linux (RHEL) e impide que se instale correctamente. Puedes comprobar si el modo FIPS está activado con el comando `fips-mode-setup --check`. Puedes desactivar el modo FIPS con el comando `fips-mode-setup --disable`. Reinicia el sistema después de desactivar el modo FIPS para instalar correctamente ONTAP Mediator 1.8 o versiones anteriores.
+* Si la instalación falla, es posible que tengas que probar con una versión más reciente de ONTAP Mediator.
+* A partir del 15 de junio de 2025, no puedes instalar ni actualizar ONTAP Mediator 1.9 ni 1.8 porque sus certificados de firma de código han caducado. Si la instalación falla, usa en su lugar la versión de parche ONTAP Mediator 1.9.1.
+
+
+====
+* Si instalas el paquete  `yum-utils`, puedes usar el comando  `needs-restarting`.
+* A partir de ONTAP Mediator 1.11, se admite IPv6 para las configuraciones IP de MetroCluster.
+
+
+
+
+[[https-and-iscsi-installation-options-for-ontap-mediator]]
+[[https-iscsi-installation]]
+=== Opciones de instalación HTTPS e iSCSI para ONTAP Mediator
+
+Antes de instalar ONTAP Mediator, revisa la siguiente información:
+
+* En ONTAP Mediator, el paquete SCST se usa para proporcionar iSCSI para la comunicación en configuraciones IP de MetroCluster. El paquete SCST es un módulo del kernel que se compila durante la instalación. A partir de ONTAP 9.19.1 y Mediator 1.12, puedes configurar un ONTAP Mediator que use HTTPS en lugar de iSCSI para supervisar una configuración IP de MetroCluster.
+* A partir de ONTAP 9.19.1 y ONTAP Mediator 1.12, tienes la opción de instalar ONTAP Mediator con compatibilidad con iSCSI y HTTPS, o compatibilidad solo con HTTPS. Si eliges instalar ONTAP Mediator con compatibilidad solo con HTTPS, el paquete SCST no se instala.
+* Si actualizas desde ONTAP Mediator 1.11 o anterior con SCST instalado y eliges la opción solo HTTPS durante la actualización, el paquete SCST se desinstala y la nueva versión de ONTAP Mediator no contiene el paquete SCST.
+* Si tienes previsto utilizar ONTAP Mediator para supervisar varias configuraciones de IP de MetroCluster, la compatibilidad depende de tu tipo de Mediator, la versión de ONTAP y el sistema operativo. Consulta link:https://docs.netapp.com/us-en/ontap-metrocluster/install-ip/concept_mediator_requirements.html#mediator-multiple-mccip["Utiliza ONTAP Mediator para supervisar varias configuraciones de MetroCluster IP"^] para obtener más información.
+* La instalación de ONTAP Mediator con soporte solo para HTTPS es compatible con los siguientes casos de uso:
++
+** Tienes previsto utilizar ONTAP Mediator únicamente para supervisar tus clústeres de sincronización activa de SnapMirror.
+** Tienes pensado configurar ONTAP Mediator con HTTPS para supervisar una o varias configuraciones de IP de MetroCluster.
+
+
+* ONTAP Mediator debe estar instalado con soporte para iSCSI y HTTPS en el siguiente escenario:
++
+** Tienes previsto configurar ONTAP Mediator con iSCSI para supervisar una o varias configuraciones IP de MetroCluster.
+
+
+
+
+
+
+[[host-requirements]]
+== Requisitos del host
+
+Sigue estos requisitos al instalar RHEL o Rocky Linux y configurar los repositorios correspondientes.
+
+[NOTE]
+====
+Si modificas el proceso de instalación o configuración, es posible que tengas que realizar pasos adicionales.
+
+====
+.Requisitos de la distribución de Linux
+* Instala RHEL o Rocky Linux siguiendo las prácticas recomendadas de Red Hat. Dado que CentOS 8.x ha llegado al final de su ciclo de vida, no se recomiendan las versiones compatibles con CentOS 8.x.
+* Al instalar ONTAP Mediator, asegúrate de que el sistema tenga acceso al repositorio necesario para que el programa de instalación pueda descargar e instalar todas las dependencias de software necesarias.
+* Para que el instalador de yum pueda encontrar el software del que depende en los repositorios de RHEL, registra el sistema durante la instalación o después con una suscripción válida de Red Hat.
++
+[NOTE]
+====
+Consulta la documentación de Red Hat Subscription Manager para obtener más información.
+
+====
+
+
+
+
+[[firewall-and-networking-requirements]]
+== Requisitos de cortafuegos y redes
+
+ONTAP Mediator utiliza una serie de puertos para comunicarse con servicios específicos.
+
+* Si estás usando un cortafuegos de terceros:
++
+** El acceso HTTPS debe estar activado.
+** Debe configurarse para permitir el acceso en los puertos 31784 y 3260.
++
+Si usas el cortafuegos predeterminado de Red Hat o CentOS, el cortafuegos se configura automáticamente durante la instalación de Mediator.
+
+
+
+* En hosts Linux sin acceso a internet, asegúrate de que los paquetes necesarios estén disponibles en un repositorio local.
++
+Si utilizas el Protocolo de control de agregación de enlaces (LACP) en un entorno Linux, configura el kernel y establece  `sysctl net.ipv4.conf.all.arp_ignore` en  `2`.
+
+
+
+La siguiente tabla enumera los puertos que debes permitir en tu cortafuegos:
+
+[NOTE]
+====
+* El puerto iSCSI solo es necesario en una configuración IP de MetroCluster.
+* El puerto 22/tcp no es necesario para el funcionamiento normal, pero puedes habilitarlo temporalmente para mantenimiento y deshabilitarlo cuando la sesión de mantenimiento haya terminado.
+
+
+====
+|===
+
+
+| Puertos/servicios | Fuente | Dirección | Destino | Propósito 
+
+
+ a| 
+22/tcp
+ a| 
+Host de gestión
+ a| 
+Entrada
+ a| 
+ONTAP Mediator
+ a| 
+(Opcional) gestión de SSH / ONTAP Mediator
+
+
+
+ a| 
+31784/tcp
+ a| 
+cluster-mgmt y node-mgmt LIFs
+ a| 
+Entrada
+ a| 
+Servidor web ONTAP Mediator
+ a| 
+(Obligatorio) API de REST (HTTPS)
+
+
+
+ a| 
+3260/tcp
+ a| 
+LIF de gestión de nodos
+ a| 
+Entrada
+ a| 
+Objetivos iSCSI de ONTAP Mediator
+ a| 
+(Requerido para las configuraciones IP de MetroCluster) conexión de datos iSCSI para los buzones
+
+|===
+
+NOTE: Para una sincronización activa de SnapMirror o MetroCluster IP ONTAP Mediator que usa HTTPS para la comunicación, ONTAP no requiere que el puerto 3260 esté habilitado o conectado.
+
+
+
+[[os-requirements]]
+== Requisitos OS
+
+Tu sistema operativo debe cumplir los siguientes requisitos:
+
+* Instalación física o máquina virtual de 64 bits
+* 8 GB de RAM
+* 1 GB de espacio en disco (para la instalación de aplicaciones, los registros del servidor y la base de datos)
+* Usuario: Acceso root
+
+
+Consulta link:../release-notes/support-matrix.html["Matriz de compatibilidad con sistemas operativos"] para ver los sistemas operativos compatibles con cada versión de ONTAP Mediator.
+
+.Paquetes necesarios para el sistema operativo
+ONTAP Mediator requiere los siguientes paquetes:
+
+
+NOTE: Los paquetes vienen preinstalados o el instalador de ONTAP Mediator los instala automáticamente.
+
+[cols="25,25,25,25"]
+|===
+
+
+| Todas las versiones de RHEL/CentOS | Paquetes adicionales para RHEL 10.x / Rocky Linux 10 | Paquetes adicionales para RHEL 9.x / Rocky Linux 9 | Paquetes adicionales para RHEL 8.x / Rocky Linux 8 
+
+
+ a| 
+* openssl
+* openssl-devel
+* kernel-devel-$ (uname -r)
+* gcc
+* hacer
+* libselinux-utils
+* parche
+* bzip2
+* perl-Data-Dumper
+* perl-ExtUtils-MakeMaker
+* efibootmgr
+* mokutil
+
+ a| 
+* python3.12
+* python3.12-devel
+
+ a| 
+* elfutils-libelf-devel
+* policycoreutils-python-utils
+* python3
+* python3-devel
+
+ a| 
+* elfutils-libelf-devel
+* policycoreutils-python-utils
+* redhat-lsb-core
+* python39
+* python39-devel
+
+
+|===
+El paquete de instalación de Mediator es un archivo tar comprimido y autoextraíble que incluye:
+
+* Un archivo RPM que contiene todas las dependencias que no se pueden obtener del repositorio de la versión compatible.
+* Un script de instalación.
+
+
+Se recomienda disponer de un certificado SSL válido.
+
+[NOTE]
+====
+* La versión del kernel debe coincidir con la versión del sistema operativo.
+* No actualices el kernel más allá de la versión del sistema operativo compatible con tu versión de ONTAP Mediator, ya que es posible que el módulo SCST probado no funcione.
+
+
+====
+
+
+[[install-ontap-mediator-when-uefi-secure-boot-is-enabled]]
+== Instala ONTAP Mediator cuando el arranque seguro de UEFI esté activado
+
+ONTAP Mediator se puede instalar en un sistema tanto si tiene activado el arranque seguro UEFI como si no.
+
+.Acerca de esta tarea
+* Puedes desactivar el arranque seguro de UEFI antes de instalar ONTAP Mediator si no es necesario o si estás solucionando problemas relacionados con la instalación de ONTAP Mediator. Desactiva la opción de arranque seguro de UEFI en la configuración de tu equipo.
+* Si instalaste ONTAP Mediator 1.12 o posterior con soporte solo para HTTPS, el paquete SCST no está instalado y puedes omitir esta tarea.
+
+
+[NOTE]
+====
+Para obtener instrucciones detalladas sobre cómo desactivar UEFI Secure Boot, consulta la documentación del sistema operativo de tu host.
+
+====
+Para instalar ONTAP Mediator con UEFI Secure Boot activado, debes registrar una clave de seguridad antes de que el servicio pueda iniciarse. La clave se genera durante la fase de compilación de la instalación de SCST y se guarda como un par de claves pública-privada en tu equipo. Usa la utilidad `mokutil` para añadir la clave pública como una Machine Owner Key (MOK) a tu firmware UEFI, lo que permite que el sistema confíe en el módulo firmado y lo cargue. Guarda la frase de contraseña `mokutil` en un lugar seguro, ya que la necesitarás al reiniciar tu sistema para activar la MOK.
+
+.Pasos
+. [[step_1_uefi]]Comprueba si el arranque seguro de UEFI está activado en tu sistema:
++
+[source, cli]
+----
+mokutil --sb-state
+----
++
+Los resultados indican si UEFI Secure Boot está activado en este sistema.
+
++
+[cols="40,60"]
+|===
+
+
+| Si... | Ir a... 
+
+
+ a| 
+El arranque seguro de UEFI está activado
+ a| 
+
+
+
+
+ a| 
+El arranque seguro de UEFI está desactivado
+ a| 
+link:enable-access-repos-task.html["Proporcionar acceso al repositorio para la instalación de ONTAP Mediator"]
+
+|===
++
+[NOTE]
+====
+** Se te pedirá que crees una frase de contraseña que deberás guardar en un lugar seguro. Necesitarás esta frase de contraseña para habilitar la clave en el UEFI Boot Manager.
+** ONTAP Mediator 1.2.0 y las versiones anteriores no admiten este modo.
+
+
+====
+. [[step_2_uefi]]Si la utilidad `mokutil` no está instalada, ejecuta el siguiente comando:
++
+[source, cli]
+----
+yum install mokutil
+----
++
+.¿Y ahora qué?
+link:enable-access-repos-task.html["Proporcionar acceso al repositorio para la instalación de ONTAP Mediator"]
+
+

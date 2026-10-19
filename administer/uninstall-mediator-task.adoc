@@ -1,0 +1,43 @@
+---
+permalink: administer/uninstall-mediator-task.html 
+sidebar: sidebar 
+keywords: mediator, uninstall, remove, delete 
+summary: Elimina ONTAP Mediator del host. 
+---
+= Desinstalar ONTAP Mediator
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si es necesario, desinstala ONTAP Mediator después de desconectarlo de ONTAP.
+
+.Antes de empezar
+Debes desconectar ONTAP Mediator de ONTAP antes de quitarlo.
+
+.Acerca de esta tarea
+Realiza esta tarea en el host Linux en el que hayas instalado ONTAP Mediator.
+
+Si no consigues ejecutar este comando, es posible que tengas que hacerlo utilizando la ruta completa, como se muestra en el siguiente ejemplo:
+
+`/usr/local/bin/uninstall_ontap_mediator`
+
+.Paso
+. Desinstala ONTAP Mediator:
++
+[source, cli]
+----
+uninstall_ontap_mediator
+----
++
+....
+ [root@mediator-host ~]# uninstall_ontap_mediator
+
+ ONTAP Mediator: Self Extracting Uninstaller
+
+ + Removing ONTAP Mediator. (Log: /tmp/ontap_mediator.GmRGdA/uninstall_ontap_mediator/remove.log)
+ + Remove successful.
+ [root@mediator-host ~]#
+....
+

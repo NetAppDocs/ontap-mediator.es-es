@@ -1,0 +1,279 @@
+---
+permalink: administer/troubleshoot-certificate-issues-task.html 
+sidebar: sidebar 
+keywords: mediator, certificate, troubleshoot, verify, expiration, x509, OpenSSL 
+summary: Comprueba las propiedades del certificado de ONTAP Mediator para diagnosticar problemas con el certificado. 
+---
+= Solucionar problemas relacionados con los certificados de ONTAP Mediator
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Utiliza estas comprobaciones para verificar las propiedades de los certificados a la hora de resolver problemas relacionados con ellos.
+
+
+
+[[verify-certificate-expiration]]
+== Verifica la fecha de caducidad del certificado
+
+Utiliza el siguiente comando para identificar el período de validez del certificado.
+
+[role="tabbed-block"]
+====
+.ONTAP Mediator 1.9 y versiones posteriores
+--
+[listing]
+----
+[root@mediator_host server_config]# openssl x509 -in intermediate.crt -text -noout
+Certificate:
+    Data:
+...
+        Validity
+            Not Before: Feb 22 19:57:25 2024 GMT
+            Not After : Feb 15 19:57:25 2029 GMT
+----
+--
+.ONTAP Mediator 1.8 y versiones anteriores
+--
+[listing]
+----
+[root@mediator_host server_config]# openssl x509 -in ca.crt -text -noout
+Certificate:
+    Data:
+...
+        Validity
+            Not Before: Feb 22 19:57:25 2024 GMT
+            Not After : Feb 15 19:57:25 2029 GMT
+----
+--
+====
+
+
+[[verify-x509v3-extensions-in-ca-certification]]
+== Verifica las extensiones X509v3 en la certificación de la CA
+
+Utiliza el siguiente comando para comprobar las extensiones X509v3 en la certificación de la CA.
+
+[role="tabbed-block"]
+====
+.ONTAP Mediator 1.9 y versiones posteriores
+--
+Las propiedades definidas dentro de `*v3_ca*` en `openssl_ca.cnf` se muestran como `X509v3 extensions` en `intermediate.crt`.
+
+[listing, subs="+quotes"]
+----
+[root@mediator_host server_config]# pwd
+/opt/netapp/lib/ontap_mediator/ontap_mediator/server_config
+
+[root@mediator_host server_config]# cat openssl_ca.cnf
+...
+[ v3_ca ]
+*subjectKeyIdentifier = hash*
+*authorityKeyIdentifier = keyid:always,issuer*
+*basicConstraints = critical, CA:true*
+*keyUsage = critical, cRLSign, digitalSignature, keyCertSign*
+
+[root@mediator_host server_config]# openssl x509 -in intermediate.crt -text -noout
+Certificate:
+    Data:
+...
+        *X509v3 extensions:*
+            X509v3 Subject Key Identifier:
+                9F:06:FA:47:00:67:BA:B2:D4:82:70:38:B8:48:55:B5:24:DB:FC:27
+            X509v3 Authority Key Identifier:
+                keyid:9F:06:FA:47:00:67:BA:B2:D4:82:70:38:B8:48:55:B5:24:DB:FC:27
+
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Key Usage: critical
+                Digital Signature, Certificate Sign, CRL Sign
+----
+--
+.ONTAP Mediator 1.8 y versiones anteriores
+--
+Las propiedades definidas dentro de `*v3_ca*` en `openssl_ca.cnf` se muestran como `X509v3 extensions` en `ca.crt`.
+
+[listing, subs="+quotes"]
+----
+[root@mediator_host server_config]# pwd
+/opt/netapp/lib/ontap_mediator/ontap_mediator/server_config
+
+[root@mediator_host server_config]# cat openssl_ca.cnf
+...
+[ v3_ca ]
+*subjectKeyIdentifier = hash*
+*authorityKeyIdentifier = keyid:always,issuer*
+*basicConstraints = critical, CA:true*
+*keyUsage = critical, cRLSign, digitalSignature, keyCertSign*
+
+[root@mediator_host server_config]# openssl x509 -in ca.crt -text -noout
+Certificate:
+    Data:
+...
+        *X509v3 extensions:*
+            X509v3 Subject Key Identifier:
+                9F:06:FA:47:00:67:BA:B2:D4:82:70:38:B8:48:55:B5:24:DB:FC:27
+            X509v3 Authority Key Identifier:
+                keyid:9F:06:FA:47:00:67:BA:B2:D4:82:70:38:B8:48:55:B5:24:DB:FC:27
+
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Key Usage: critical
+                Digital Signature, Certificate Sign, CRL Sign
+----
+--
+====
+
+
+[[verify-x509v3-extensions-in-server-certificate-and-subject-alt-names]]
+== Verifica las extensiones X509v3 en el certificado del servidor y los nombres alternativos del sujeto
+
+Las  `v3_req` propiedades definidas en el  `openssl_server.cnf` archivo de configuración se muestran como  `X509v3 extensions` en el certificado.
+
+En el siguiente ejemplo, puedes obtener las variables en las secciones `alt_names` ejecutando los comandos `hostname -A` y `hostname -I` en la máquina virtual Linux en la que está instalado ONTAP Mediator.
+
+Consulta con tu administrador de red cuáles son los valores correctos de las variables.
+
+[role="tabbed-block"]
+====
+.ONTAP Mediator 1.9 y versiones posteriores
+--
+[listing]
+----
+[root@mediator_host server_config]# pwd
+/opt/netapp/lib/ontap_mediator/ontap_mediator/server_config
+
+[root@mediator_host server_config]# cat openssl_server.cnf
+...
+[ v3_req ]
+basicConstraints       = CA:false
+extendedKeyUsage       = serverAuth
+keyUsage               = keyEncipherment, dataEncipherment
+subjectAltName         = @alt_names
+
+[ alt_names ]
+DNS.1 = abc.company.com
+DNS.2 = abc-v6.company.com
+IP.1 = 1.2.3.4
+IP.2 = abcd:abcd:abcd:abcd:abcd:abcd
+
+[root@mediator_host server_config]# openssl x509 -in intermediate.crt -text -noout
+Certificate:
+    Data:
+...
+
+        X509v3 extensions:
+            X509v3 Basic Constraints:
+                CA:FALSE
+            X509v3 Extended Key Usage:
+                TLS Web Server Authentication
+            X509v3 Key Usage:
+                Key Encipherment, Data Encipherment
+            X509v3 Subject Alternative Name:
+                DNS:abc.company.com, DNS:abc-v6.company.com, IP Address:1.2.3.4, IP Address:abcd:abcd:abcd:abcd:abcd:abcd
+----
+--
+.ONTAP Mediator 1.8 y versiones anteriores
+--
+[listing]
+----
+[root@mediator_host server_config]# pwd
+/opt/netapp/lib/ontap_mediator/ontap_mediator/server_config
+
+[root@mediator_host server_config]# cat openssl_server.cnf
+...
+[ v3_req ]
+basicConstraints       = CA:false
+extendedKeyUsage       = serverAuth
+keyUsage               = keyEncipherment, dataEncipherment
+subjectAltName         = @alt_names
+
+[ alt_names ]
+DNS.1 = abc.company.com
+DNS.2 = abc-v6.company.com
+IP.1 = 1.2.3.4
+IP.2 = abcd:abcd:abcd:abcd:abcd:abcd
+
+[root@mediator_host server_config]# openssl x509 -in ca.crt -text -noout
+Certificate:
+    Data:
+...
+
+        X509v3 extensions:
+            X509v3 Basic Constraints:
+                CA:FALSE
+            X509v3 Extended Key Usage:
+                TLS Web Server Authentication
+            X509v3 Key Usage:
+                Key Encipherment, Data Encipherment
+            X509v3 Subject Alternative Name:
+                DNS:abc.company.com, DNS:abc-v6.company.com, IP Address:1.2.3.4, IP Address:abcd:abcd:abcd:abcd:abcd:abcd
+----
+--
+====
+
+
+[[verify-that-a-private-key-matches-with-a-certificate]]
+== Comprueba que una clave privada coincida con un certificado
+
+Puedes comprobar si una clave privada concreta coincide con un certificado.
+
+Utiliza los siguientes comandos de OpenSSL en la clave y el certificado, respectivamente.
+
+[role="tabbed-block"]
+====
+.ONTAP Mediator 1.9 y versiones posteriores
+--
+[listing]
+----
+[root@mediator_host server_config]# openssl rsa -noout -modulus -in intermediate.key | openssl md5
+Enter pass phrase for intermediate.key:
+(stdin)= 14c6b98b0c7c59012b1de89eee4a9dbc
+[root@mediator_host server_config]# openssl x509 -noout -modulus -in intermediate.crt | openssl md5
+(stdin)= 14c6b98b0c7c59012b1de89eee4a9dbc
+----
+--
+.ONTAP Mediator 1.8 y versiones anteriores
+--
+[listing]
+----
+[root@mediator_host server_config]# openssl rsa -noout -modulus -in ca.key | openssl md5
+Enter pass phrase for ca.key:
+(stdin)= 14c6b98b0c7c59012b1de89eee4a9dbc
+[root@mediator_host server_config]# openssl x509 -noout -modulus -in ca.crt | openssl md5
+(stdin)= 14c6b98b0c7c59012b1de89eee4a9dbc
+----
+--
+====
+Si el atributo  `-modulus` coincide en ambos casos, indica que la clave privada y el certificado son compatibles y pueden funcionar juntos.
+
+
+
+[[verify-that-a-server-certificate-is-created-from-a-particular-ca-certificate]]
+== Comprueba que se haya creado un certificado de servidor a partir de un certificado de una CA concreta
+
+Puedes utilizar el siguiente comando para comprobar que el certificado del servidor se ha creado a partir de un certificado de una CA concreta.
+
+[role="tabbed-block"]
+====
+.ONTAP Mediator 1.9 y versiones posteriores
+--
+[listing]
+----
+[root@mediator_host server_config]# openssl verify -CAfile root_ca.crt --untrusted intermediate.crt ontap_mediator_server.crt
+ontap_mediator_server.crt: OK
+[root@mediator_host server_config]#
+----
+--
+.ONTAP Mediator 1.8 y versiones anteriores
+--
+[listing]
+----
+[root@mediator_host server_config]# openssl verify -CAfile ca.crt ontap_mediator_server.crt
+ontap_mediator_server.crt: OK
+----
+--
+====
+Si se utiliza la validación mediante el Protocolo de estado de certificados en línea (OCSP), usa el comando link:https://www.openssl.org/docs/manmaster/man1/openssl-verify.html["openssl-verify"^].
