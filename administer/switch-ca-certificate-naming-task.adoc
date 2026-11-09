@@ -1,0 +1,60 @@
+---
+permalink: administer/switch-ca-certificate-naming-task.html 
+sidebar: sidebar 
+keywords: mediator, certificate, CA, common name, unique identifier, generate_unique_ca_name, legacy 
+summary: Cambia ONTAP Mediator al nombre común del certificado de CA fijo heredado cuando una instancia de ONTAP Mediator deba emparejarse con una versión de ONTAP que no reconozca el identificador único de la CA. 
+---
+= Cambiar ONTAP Mediator al nombre común del certificado de CA heredado
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+A partir de ONTAP Mediator 1.13, los certificados de CA autofirmados incluyen un identificador específico de cada instalación en su nombre común. Si tu instancia de ONTAP Mediator debe emparejarse con una versión de ONTAP que no reconozca este identificador, cambia al nombre común fijo heredado.
+
+De forma predeterminada, los certificados de CA de ONTAP Mediator incluyen un identificador específico de cada instalación en su nombre común, por ejemplo `ONTAP Mediator CA 1a2b3c4d`. Esto te permite registrar varias instancias de ONTAP Mediator en el mismo clúster de ONTAP, ya que ONTAP no permite instalar dos certificados de CA que compartan el mismo nombre del sujeto, pero tengan claves diferentes.
+
+Las siguientes versiones de ONTAP localizan la CA de ONTAP Mediator comparando exactamente el nombre común y no reconocen el identificador:
+
+* ONTAP 9.11.1 y versiones anteriores
+* Versiones de parche de ONTAP anteriores a 9.12.1P15, 9.13.1P12, 9.14.1P8 y 9.15.1P2
+
+
+Si una instancia de ONTAP Mediator debe emparejarse con una de estas versiones, utiliza el nombre común fijo heredado.
+
+.Acerca de esta tarea
+* Realiza esta tarea en el host Linux en el que hayas instalado ONTAP Mediator.
+* Mientras el nombre común heredado siga vigente, solo puedes registrar una instancia de ONTAP Mediator por cada clúster de ONTAP.
+
+
+.Pasos
+. Añade la siguiente línea al archivo `/opt/netapp/lib/ontap_mediator/ontap_mediator/server_config/ontap_mediator.user_config.yaml`. Este archivo se conserva tras las actualizaciones de ONTAP Mediator.
++
+`'generate_unique_ca_name': false`
+
+. Regenera los certificados:
++
+[source, cli]
+----
+[root@localhost ~]# cd /opt/netapp/lib/ontap_mediator/ontap_mediator/server_config/; ./make_self_signed_certs.sh overwrite
+----
+. Reinicia el servicio:
++
+[source, cli]
+----
+[root@localhost ~]# sudo systemctl restart ontap_mediator
+----
+. En cada clúster ONTAP emparejado en el que se utilicen certificados de CA autofirmados, realiza las siguientes acciones:
++
+.. Elimina ONTAP Mediator.
+.. Elimina los certificados de CA instalados anteriormente.
+.. Instala los certificados regenerados `root_ca.crt` y `intermediate.crt`.
+.. Vuelve a añadir ONTAP Mediator.
++
+
+CAUTION: La regeneración siempre genera nuevas claves, por lo que primero debes eliminar los certificados de CA antiguos. Si los dejas ahí, ONTAP conserva una CA que ya no firma el certificado del servidor. Las versiones más recientes de ONTAP también rechazan la instalación de los certificados de CA de sustitución porque los certificados nuevos y antiguos comparten el mismo nombre de sujeto.
+
+
+
+

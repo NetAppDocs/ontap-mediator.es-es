@@ -18,7 +18,6 @@
   <block id="bbe48fb854ea022537208eeeff822f91" category="paragraph-title">Acerca de esta tarea</block>
   <block id="d9ad92650bab84bc917500672a9e9b4a" category="paragraph">Realiza esta tarea en el host Linux en el que hayas instalado ONTAP Mediator.</block>
   <block id="e3bdaded12d38863b3e782d2277f8891" category="paragraph">Si no consigues ejecutar este comando, es posible que tengas que hacerlo utilizando la ruta completa, como se muestra en el siguiente ejemplo:</block>
-  <block id="6b650cfd5a5122af7703db2cfff2b455" category="paragraph"><block ref="92d0578e497049745d0c01a458589875" prefix="" category="inline-code"></block></block>
   <block id="f3a29486bed19a90f2da6d007818b427" category="paragraph-title">Pasos</block>
   <block id="493069b37797535af86a5daa9bd2e352" category="paragraph">Cambia el nombre de usuario eligiendo una de las siguientes opciones:</block>
   <block id="db1bf0163f01878ecdb6508c5a1963a8" category="list-text">*Opción (a)*: Ejecuta el comando <block ref="bcb7a5e5c3c1afa1dc68fdb6a8454578" prefix=" " category="inline-code"></block> y responde a las preguntas tal y como se muestra en el siguiente ejemplo:</block>
@@ -35,7 +34,6 @@
   <block id="551115cc1e16b044befb6a3243ac9e1a" category="doc">Configurar los atributos de ONTAP Mediator</block>
   <block id="e157cb939ce87b5c3ae877bd0d947e52" category="paragraph">Puedes configurar los atributos del lado del host de ONTAP Mediator, incluidas las opciones relacionadas con los certificados y las anulaciones de configuración.</block>
   <block id="e9a1e6efbcb08097f04a06af109c2bee" category="section-title">Parámetros configurables de ONTAP Mediator</block>
-  <block id="ec3e1b1fc1be2a3dee9811cb41dc4365" category="paragraph">ONTAP Mediator admite varios parámetros configurables. Los valores predeterminados de estos parámetros se proporcionan en un archivo<block ref="e3f1d2df1657c34833364a52d4b29d60" prefix=" " category="inline-code"></block> de solo lectura. El archivo se encuentra en:</block>
   <block id="cdfebc1d2257e18b26403478e4a7ef13" category="paragraph"><block ref="27a6b24601b63526ffca2fd1c5f9a5c4" prefix="" category="inline-code"></block></block>
   <block id="d41105b4b1c23e8032ba635977fa7cbe" category="paragraph">Todos los valores que se introduzcan en el <block ref="e69236eb2aa5b1455dc0f88753a8a1a2" prefix=" " category="inline-code"></block> anularán los valores predeterminados y se mantendrán en todas las actualizaciones de ONTAP Mediator.</block>
   <block id="ee1ed33eed3c77405d3c2e44814e71dc" category="paragraph">Después de modificar<block ref="e69236eb2aa5b1455dc0f88753a8a1a2" prefix=" " category="inline-code"></block>, reinicia ONTAP Mediator:</block>
@@ -405,9 +403,7 @@
   <block id="0f4bc86ea28cf8ca4442347baae28ed4" category="paragraph"><block ref="863dd28b869dd7f84629121ec2bd390a" prefix="" category="inline-code"></block></block>
   <block id="2b3a52b0be4aa7a7514d96f48f3fbc1f" category="paragraph"><block ref="d32a8283057676562814e0ccbcbac013" prefix="" category="inline-code"></block></block>
   <block id="0d90bdca469fcd2ce8bc51d64365ba14" category="list-text">Como parte de la actualización, el instalador crea un paquete de soporte con la configuración previa a la actualización y migra la base de datos antes de actualizar el software ONTAP Mediator.</block>
-  <block id="bc6ccd2a38c1da7dbabbd34e51736ca7" category="list-text">En los casos de uso de automatización, puedes usar el comando <block ref="e06c57956a1db62e945519ac48ec3f4f" prefix=" " category="inline-code"></block> para saltarte las indicaciones del instalador.</block>
   <block id="03cef594048699e8bd8a0ea4afb2125a" category="list-text">Ejecuta el instalador de la nueva versión y sigue las instrucciones que te vayan apareciendo:</block>
-  <block id="f1f7a8a0513234ffbeb83a09c905d204" category="paragraph">Para omitir la comprobación de la firma durante la actualización, utiliza el comando <block ref="0909581c61d409342de86e60b8beeaa3" prefix=" " category="inline-code"></block></block>
   <block id="1dbcde616241e6573e23e89f6e275947" category="paragraph">El instalador detecta la instalación existente y te pide que actualices, luego instala los paquetes necesarios y migra tu configuración.</block>
   <block id="9ac776b366c707188480de9a0924171b" category="example-title">Ejemplo de actualización de ONTAP Mediator con HTTPS y soporte iSCSI (salida de consola)</block>
   <block id="9c75661710d19b7b0d75931cb7183fce" category="example-title">Ejemplo de actualización de ONTAP Mediator con soporte solo para HTTPS (salida de consola)</block>
@@ -500,9 +496,7 @@
   <block id="15afbc8f4de683d4fb1fae0933997793" category="paragraph"><block ref="de4f843df3ec4390b8f55b8342ad7f59" prefix="" category="inline-code"></block></block>
   <block id="b58aca8487a4163da6d931d898d9e14e" category="list-text">Responde<block ref="93cba07454f06a4a960172bbd6e2a435" prefix=" " category="inline-code"></block> si planeas usar ONTAP Mediator configurado con iSCSI para monitorear una o más configuraciones IP de MetroCluster.</block>
   <block id="10b2c55da479eba92cedc967836bc0c6" category="list-text">Responde<block ref="bafd7322c6e97d25b6299b5d6fe8920b" prefix=" " category="inline-code"></block> si tienes previsto usar ONTAP Mediator solo para la sincronización activa de SnapMirror, o si planeas configurar ONTAP Mediator con HTTPS para monitorear una o más configuraciones de IP de MetroCluster.</block>
-  <block id="f19487721cab9d8de852c771a3184694" category="paragraph">Alternativamente, puedes usar la opción<block ref="57d50f027c66afa1ed46336b1408221e" prefix=" " category="inline-code"></block> en el comando<block ref="fcd2585ca4e769848950b5d7a9a7d316" prefix=" " category="inline-code"></block> para especificar solo HTTPS.</block>
   <block id="a7ba40d46b4078b475039877064f94df" category="list-text">Ejecuta el instalador y responde a las indicaciones según se requiera:</block>
-  <block id="9bf9d999cf1c1072afb0a174778ef513" category="paragraph">Para omitir la comprobación de la firma durante la instalación, utiliza el comando <block ref="0909581c61d409342de86e60b8beeaa3" prefix=" " category="inline-code"></block></block>
   <block id="2dcbd5af105d1885a4c6cf9ec98331f3" category="paragraph">El programa de instalación crea las cuentas necesarias e instala los paquetes requeridos. Si ONTAP Mediator ya está instalado, el programa de instalación te pedirá que actualices; para ver los pasos y ejemplos específicos de la actualización, consulta <block ref="f124e81a53a38f34d7f1c73c06a3602e" category="inline-link-macro-rx"></block>.</block>
   <block id="4384a2e942a15e1e210fa5de9a5a8236" category="example-title">Ejemplo de instalación de ONTAP Mediator con soporte HTTPS e iSCSI (salida de consola)</block>
   <block id="344180bf5a5b07d855d14ad0da508af0" category="example-title">Ejemplo de instalación de ONTAP Mediator con soporte solo para HTTPS (salida de consola)</block>
@@ -652,13 +646,8 @@
   <block id="141978143677358a548da31a39c1be88" category="paragraph">La cadena de confianza de la CA de certificación pública</block>
   <block id="d14d716769ebc25416523fef51abd9b8" category="paragraph"><block ref="363d3474e22d7db66173e78c91f91e7f" prefix="" category="inline-code"></block></block>
   <block id="9cbdb840a113ea7b5dcb298deaa05b7e" category="paragraph">El certificado utilizado para generar la clave</block>
-  <block id="59695863d263b33f206a381bcc6ce261" category="paragraph"><block ref="0c59cbf13b1608fef86b59cc0e6967de" prefix="" category="inline-code"></block></block>
-  <block id="c4512ba85ce34c6480617c484914f747" category="paragraph">El ejecutable de instalación del producto para la versión 1.12</block>
-  <block id="0c55f368e18cfaa6fe2b014acbea4986" category="paragraph"><block ref="4618732bcabe7114d848c5006bfb9ab6" prefix="" category="inline-code"></block></block>
   <block id="2e8527e57b678d1e86dfcd907d502c93" category="paragraph">La firma del instalador, a la que se le ha aplicado un hash SHA-256 y luego se ha firmado con RSA usando la clave csc-prod</block>
-  <block id="b8fd0eeaf6e764870e4573b8912bf427" category="paragraph"><block ref="711633bfbf4618fe03e72b5449b8e205" prefix="" category="inline-code"></block></block>
   <block id="1acf93481e84a4e4c609c4546137aee9" category="paragraph">La solicitud de revocación que utilizará OCSCP para la firma del instalador</block>
-  <block id="868bb91b10f53c614e4fe4c994eb89b5" category="paragraph"><block ref="d5a2e42625d9ed2e19dc1ed5ae810d2e" prefix="" category="inline-code"></block></block>
   <block id="5a46f8ae3f6e839360f746d5fa5e480b" category="paragraph">El archivo de solicitud de firma con marca de tiempo</block>
   <block id="ea43322ff7094ad7629e24cbe40c3e9c" category="paragraph"><block ref="4e9f36f85cfdfb83b20958a929957bbf" prefix="" category="inline-code"></block></block>
   <block id="3ff1067ef040350863cd35305c0cd651" category="paragraph">El certificado público del TSR</block>
@@ -671,7 +660,6 @@
   <block id="5c583e4141833d6e7db2838d568f5323" category="list-text">Comprueba la cadena de confianza del CSC y las fechas de caducidad con respecto al host local:</block>
   <block id="c81eb6c983032e3d49e6b571c2794296" category="admonition">La versión de <block ref="50955d4b2031271f8fda1764c1a66ac3" prefix=" " category="inline-code"></block> PATH debe tener un <block ref="691869bca85baab2f31b7f268617f791" prefix=" " category="inline-code"></block> válido (que no sea autofirmado).</block>
   <block id="620bc19067c74879a4e4f7bf199ea37e" category="paragraph">El comando falla si el certificado de comprobación de la firma del código o el certificado de marca de tiempo ha caducado o no es válido. Descarga una versión más reciente de ONTAP Mediator.</block>
-  <block id="b4e9ec58d3ef956e8fc1a9fc7b82974b" category="list-text">Verifica los archivos<block ref="711633bfbf4618fe03e72b5449b8e205" prefix=" " category="inline-code"></block> y<block ref="d5a2e42625d9ed2e19dc1ed5ae810d2e" prefix=" " category="inline-code"></block> usando los certificados asociados:</block>
   <block id="195bddf21d18e6684827f26df294c1eb" category="open-title">OpenSSL 3.x</block>
   <block id="414fe320287d05243bfc22a1d19c8b98" category="open-title">OpenSSL 1.x</block>
   <block id="2809839371385d16108fa0cee4cee699" category="admonition"><block ref="c40361447c48e9b3eaa3ba6ba4896af0" prefix="" category="inline-code"></block> archivos contienen la respuesta de marca de tiempo asociada al instalador y la firma de código. El procesamiento confirma que la marca de tiempo tiene una firma válida de TSA y que tu archivo de entrada no ha cambiado. Tu equipo realiza la verificación localmente. No necesitas acceder a los servidores de TSA.</block>
@@ -842,7 +830,6 @@
   <block id="fb1dbcf8128090987e569bf651313243" category="paragraph">Sí (solo RHEL)</block>
   <block id="574ea4c991e6ef7f20d7f1c11ae22d02" category="paragraph">CentOS 8 y stream</block>
   <block id="382b0f5185773fa0f67a8ed8056c7759" category="paragraph">N/A</block>
-  <block id="0929d852cfa2d35a82477186fd055160" category="paragraph">Sí (10.2)</block>
   <block id="9df743054dfbdcad631028afabd38b41" category="paragraph">Sí (10.0 y 10.1)</block>
   <block id="26d40bd113f37177261b00ebc25b0a8d" category="paragraph">Sí (9.8)</block>
   <block id="e1b00cf1bcb2d955314fe2ef4af8274c" category="paragraph">Sí (9.7)</block>
@@ -876,9 +863,7 @@
   <block id="1f840207417dd3f3c58182bbb07f7d4d" category="admonition">Para obtener información sobre las versiones del sistema operativo y de SCST, consulta <block ref="c149c010c58bed396877e76753dfe3da" category="inline-link-macro-rx"></block>.</block>
   <block id="c1748037d10cffabb8e95e4ccf77c613" category="cell">Mejoras</block>
   <block id="63c1378a540c130ed6526f15004717aa" category="list-text">Soporte para RHEL:</block>
-  <block id="e8a8a0fc3a01794e8d25d6aed862ebc4" category="list-text">Compatible: 10.1 y 9.7.</block>
   <block id="60d802407741b6aa93912645b95973d3" category="list-text">Recomendado: 10.2, 10.0, 9.8, 9.6, 9.4 y 8.10.</block>
-  <block id="1a1727a6918fd3fa55075b30a8c19c43" category="list-text">Soporte para Rocky Linux 10.2, 9.8 y 8.10.</block>
   <block id="37816537c169d0bac0ac457e8611211a" category="list-text">Soporte para Oracle Linux 10.1 y 9.8 con ambos kernels rhck y uek.</block>
   <block id="9a4a53cef7b15442ebf61d83809a82f4" category="list-text">A partir de ONTAP Mediator 1.12.1 y ONTAP 9.19.1, una única instancia de ONTAP Mediator configurada con HTTPS puede supervisar simultáneamente las siguientes configuraciones:</block>
   <block id="2ef6e8f0d5d66d492a2b23a3bb0ad174" category="list-text">Un máximo de diez configuraciones IP de cuatro nodos o cinco de ocho nodos de MetroCluster si se instalan en un host con una CPU de 8 núcleos y al menos 16 GB de RAM. Consulta <block ref="23c736ffefe2c88d617ae89ae44b32de" category="inline-link-macro-rx"></block>.</block>
@@ -888,15 +873,10 @@
   <block id="6082f1d9d6234f1a22ac348bcaf40bfc" category="list-text">Soporte para Oracle Linux 10.1 y 9.7 con ambos kernels rhck y uek.</block>
   <block id="f891556a6688c140ff5a993b15949efd" category="inline-link-macro">Más información sobre las opciones de instalación de HTTPS e iSCSI para ONTAP Mediator</block>
   <block id="2132cc27a065b478c6073807667d8821" category="list-text">A partir de ONTAP 9.19.1 y ONTAP Mediator 1.12, puedes configurar un ONTAP Mediator que use HTTPS para la comunicación en configuraciones IP de MetroCluster. HTTPS ofrece mayor seguridad al cifrar sesiones completas usando SSL/TLS. Puedes elegir instalar ONTAP Mediator con soporte solo para HTTPS. El paquete SCST no se instala si usas este método de instalación. <block ref="c2201c8820baa97aa8e2ad6d6bbe796b" category="inline-link-macro-rx"></block>.</block>
-  <block id="098e6488f292a2a967f044215af1d052" category="list-text">Soporte para RHEL 10.1, 10.0, 9.7, 9.6, 9.4 y 8.10.</block>
-  <block id="cac276a9e96f3c0963f96b1a6f677ed4" category="list-text">Soporte para Rocky Linux 10.1, 9.7 y 8.10.</block>
   <block id="684a4237791e6b7accb3359916149a47" category="list-text">Soporte para Oracle Linux 10.0 y 9.6 con ambos kernels rhck y uek.</block>
   <block id="b157fc40cc8a93b02f24b6090bc14033" category="list-text">Añade compatibilidad con IPv6 para las configuraciones IP de MetroCluster.</block>
   <block id="46837ff5597d19a05270b6ca1fa2a504" category="list-text">Añade compatibilidad con fapolicyd.</block>
-  <block id="91c808163778b1252a5964a6166084bb" category="list-text">Soporte para RHEL 10.0, 9.6, 9.4 y 8.10.</block>
-  <block id="bc04dd412f2394730e2fbce62160ee42" category="list-text">Soporte para Rocky Linux 10.0, 9.6 y 8.10.</block>
   <block id="c8ac2fa8a1351efab1af118900283acf" category="list-text">Actualiza la versión base de Python de Python 3.9 a Python 3.12.</block>
-  <block id="dbe5333de3a60f1c199904055a1f72b5" category="list-text">Compatible: 9.3, 9.1, 8.9, 8.7, 8.6, 8.5 y 8.4.</block>
   <block id="118ed9268d9cd782d2d31ba313aad13c" category="list-text">Recomendado: 9.5, 9.4, 9.2, 9.0, 8.10 y 8.8.</block>
   <block id="7e63e98b1c2bb4da8e19cd22fbcf38f8" category="list-text">Compatibilidad con Rocky Linux 9.5 y 8.10.</block>
   <block id="77f43b2671d5490ff8fb4ca358c08f3c" category="list-text">Agrega nuevos certificados para la verificación de firmas de código.</block>
@@ -978,4 +958,65 @@
   <block id="d847c50d8e20b1cbb0c7d007c82bb436" category="sidebar">Sustituir los certificados autofirmados por certificados de confianza</block>
   <block id="aa4366187e22f05be41c6094e57cf220" category="sidebar">Soluciona problemas relacionados con los certificados</block>
   <block id="f5fc8b69026eddce9248be43141a3d30" category="sidebar">Mantenimiento del sistema operativo host</block>
+  <block id="2e45d093d8b615a44a29e53a21b5e767" category="paragraph"><block ref="1a45494ade6dc6e1a9790be9200aa869" prefix="" category="inline-code"></block></block>
+  <block id="2df4a646c987f3989dc0624d37db2152" category="paragraph">ONTAP Mediator admite varios parámetros configurables. Los valores predeterminados de estos parámetros se proporcionan en un archivo<block ref="5b85df10091f3a4731397680ace5150b" prefix=" " category="inline-code"></block> de solo lectura. El archivo se encuentra en:</block>
+  <block id="9aa00da8b83aa909608d933199e55d20" category="paragraph">ONTAP Mediator 1.13</block>
+  <block id="aa01b5456287a4d00fc44b3771e9cc96" category="admonition">Omite este paso si has instalado ONTAP Mediator con soporte exclusivo para HTTPS.</block>
+  <block id="54df2b3a9e25dd3369a5bd9678f58b57" category="summary">Cambia ONTAP Mediator al nombre común del certificado de CA fijo heredado cuando una instancia de ONTAP Mediator deba emparejarse con una versión de ONTAP que no reconozca el identificador único de la CA.</block>
+  <block id="816c214db83c2903fb6996aa57c16cf3" category="doc">Cambiar ONTAP Mediator al nombre común del certificado de CA heredado</block>
+  <block id="925b5684217bdcae147693a6159d9d83" category="paragraph">A partir de ONTAP Mediator 1.13, los certificados de CA autofirmados incluyen un identificador específico de cada instalación en su nombre común. Si tu instancia de ONTAP Mediator debe emparejarse con una versión de ONTAP que no reconozca este identificador, cambia al nombre común fijo heredado.</block>
+  <block id="22cc32097d9c18e9a64e0ef3da41c468" category="paragraph">De forma predeterminada, los certificados de CA de ONTAP Mediator incluyen un identificador específico de cada instalación en su nombre común, por ejemplo<block ref="effe47a45fdc5d2560c8fc38b0ca8ae8" prefix=" " category="inline-code"></block>. Esto te permite registrar varias instancias de ONTAP Mediator en el mismo clúster de ONTAP, ya que ONTAP no permite instalar dos certificados de CA que compartan el mismo nombre del sujeto, pero tengan claves diferentes.</block>
+  <block id="a09cb018f96a53cc9765607ed70f82e1" category="paragraph">Las siguientes versiones de ONTAP localizan la CA de ONTAP Mediator comparando exactamente el nombre común y no reconocen el identificador:</block>
+  <block id="58ff5f456710e2c10351958a374f1bae" category="list-text">ONTAP 9.11.1 y versiones anteriores</block>
+  <block id="891b713fca5808b1c2cd7cc648fc61dc" category="list-text">Versiones de parche de ONTAP anteriores a 9.12.1P15, 9.13.1P12, 9.14.1P8 y 9.15.1P2</block>
+  <block id="e3955862141675781e2cbe80154ce2a8" category="paragraph">Si una instancia de ONTAP Mediator debe emparejarse con una de estas versiones, utiliza el nombre común fijo heredado.</block>
+  <block id="03649b17815bd11210bf595255fba6f6" category="list-text">Mientras el nombre común heredado siga vigente, solo puedes registrar una instancia de ONTAP Mediator por cada clúster de ONTAP.</block>
+  <block id="07d69eccb3ebafbae63ab4392cf7928f" category="list-text">Añade la siguiente línea al archivo<block ref="27a6b24601b63526ffca2fd1c5f9a5c4" prefix=" " category="inline-code"></block>. Este archivo se conserva tras las actualizaciones de ONTAP Mediator.</block>
+  <block id="8b5050dd33ac53a5e508253480146ac4" category="paragraph"><block ref="11138920c8111299225c2be51ddbcc55" prefix="" category="inline-code"></block></block>
+  <block id="196af1e4f3a653ddedb8d62a227521af" category="list-text">Regenera los certificados:</block>
+  <block id="210c2aaab0d7ce6fd48f61de3a9b1297" category="list-text">Reinicia el servicio:</block>
+  <block id="f7fcc9e598433aa82a360140b737ca71" category="list-text">En cada clúster ONTAP emparejado en el que se utilicen certificados de CA autofirmados, realiza las siguientes acciones:</block>
+  <block id="023e0c144e1daeb92478ace85fc6ea87" category="list-text">Elimina ONTAP Mediator.</block>
+  <block id="6eefa2e34e98766c626c4a6a7ef5a7b3" category="list-text">Elimina los certificados de CA instalados anteriormente.</block>
+  <block id="7d39a3cfde700585cbf6eeec9192f9bf" category="list-text">Instala los certificados regenerados<block ref="f93035d1d7d45fa37bc8cf1cd447ea1b" prefix=" " category="inline-code"></block> y<block ref="9e1f34d274d54e077ab71c2c0fe0badd" prefix=" " category="inline-code"></block>.</block>
+  <block id="e3e9628f686c3c5df7e5c94b46aa4fbd" category="list-text">Vuelve a añadir ONTAP Mediator.</block>
+  <block id="28b70437ca44696b36fe29ef89a97ed5" category="admonition">La regeneración siempre genera nuevas claves, por lo que primero debes eliminar los certificados de CA antiguos. Si los dejas ahí, ONTAP conserva una CA que ya no firma el certificado del servidor. Las versiones más recientes de ONTAP también rechazan la instalación de los certificados de CA de sustitución porque los certificados nuevos y antiguos comparten el mismo nombre de sujeto.</block>
+  <block id="1bcbd7b942d6caaa7e2ab544168b8a1a" category="list-text">En los casos de uso de automatización, puedes usar el comando <block ref="9045d755f28bf2faf0403a5a5891e26a" prefix=" " category="inline-code"></block> para saltarte las indicaciones del instalador.</block>
+  <block id="60653b62fa6c4acb810357cf2b172123" category="list-text">Antes de la actualización, completa el siguiente subpaso si vas a actualizar a ONTAP Mediator 1.13 o una versión posterior en una instancia de ONTAP Mediator que esté emparejada con una de las siguientes versiones:</block>
+  <block id="4084a1fdbaf72f07828e95c8b7d2873d" category="list-text">Añade la siguiente línea al archivo <block ref="27a6b24601b63526ffca2fd1c5f9a5c4" prefix=" " category="inline-code"></block>.</block>
+  <block id="fa49f90865b9c06e38584e54c9184051" category="paragraph">Este archivo se conserva tras las actualizaciones de ONTAP Mediator.</block>
+  <block id="9d0d71326177052ca276b253b9cd050d" category="paragraph">Para omitir la comprobación de la firma durante la actualización, utiliza el comando <block ref="a9d5130384336d1a2cce60abf4023ed2" prefix=" " category="inline-code"></block></block>
+  <block id="48b64c4cb9d311518aa66fe687f0f981" category="admonition">Para una instalación solo con HTTPS, cuenta únicamente con el puerto 31784. Los listeners del puerto 3260 del ejemplo siguiente se aplican cuando se instala SCST.</block>
+  <block id="9f5b84a44a7caeb911adee2300bec9fb" category="paragraph">Alternativamente, puedes usar la opción<block ref="57d50f027c66afa1ed46336b1408221e" prefix=" " category="inline-code"></block> en el comando<block ref="343b7d834dc2de21c92483de1a0ebaba" prefix=" " category="inline-code"></block> para especificar solo HTTPS.</block>
+  <block id="e88887e570f660954eb0e3adfb1c33d5" category="paragraph">Para omitir la comprobación de la firma durante la instalación, utiliza el comando <block ref="a9d5130384336d1a2cce60abf4023ed2" prefix=" " category="inline-code"></block></block>
+  <block id="6f5c0b648bc50d34a58a64ebb3a0e70f" category="paragraph"><block ref="def3b8d13ef49b4bcbb65b4d3f92d88e" prefix="" category="inline-code"></block></block>
+  <block id="c9b44fb0719f36013da2c1927fb1b81c" category="paragraph">El ejecutable de instalación del producto para la versión 1.13</block>
+  <block id="006df65d81720f5b8f41c34faa1fc2f0" category="paragraph"><block ref="958955c079ed8ac4c5240190b30b49d3" prefix="" category="inline-code"></block></block>
+  <block id="8149cb31a6d4a352b4938150a2ead612" category="paragraph"><block ref="7df6f926465229c58bc30c41e2985c6e" prefix="" category="inline-code"></block></block>
+  <block id="0999efe9862a6f81a06140795aa5ad2a" category="paragraph"><block ref="43cc9541dd5b1b8283b51ed81eb24aad" prefix="" category="inline-code"></block></block>
+  <block id="3034dafd0172d3c94a3c7b97d9d199fe" category="list-text">Verifica los archivos<block ref="7df6f926465229c58bc30c41e2985c6e" prefix=" " category="inline-code"></block> y<block ref="43cc9541dd5b1b8283b51ed81eb24aad" prefix=" " category="inline-code"></block> usando los certificados asociados:</block>
+  <block id="e3a6c291632110e7613c247e02c15817" category="inline-link-macro">Aviso sobre ONTAP Mediator 1.13</block>
+  <block id="6877f6512fcddc916d5ffeb4d152f6ac" category="list-text"><block ref="6877f6512fcddc916d5ffeb4d152f6ac" category="inline-link-macro-rx"></block></block>
+  <block id="9fe6d7d50b2c6958117a19834e038c82" category="cell">1,13</block>
+  <block id="dbb7392827f60ae5c2086eb33d0a4ae9" category="paragraph">RHEL 10.3</block>
+  <block id="1a3ae29df6183574721fada1f6befa7d" category="paragraph">RHEL 9.9</block>
+  <block id="efea5cec1afeb64521a78170bda90d77" category="paragraph">Sí (10.0, 10.1 y 10.2)</block>
+  <block id="3fa6442684bd6f92d688d8ccc3d61084" category="paragraph">Sí (9.4, 9.6, 9.7 y 9.8)</block>
+  <block id="3f3b15c9b99ed59a0c15ca3e5f116d5f" category="paragraph">Sí (9.6, 9.7 y 9.8)</block>
+  <block id="201d17a206909ed047aa752687559c4e" category="list-text">Compatible: 10.1, 9.7 y 9.5.</block>
+  <block id="9f32cbd93b1821f68cfc78758056d136" category="list-text">Versiones recomendadas: 10.3, 10.2, 10.0, 9.9, 9.8, 9.6, 9.4 y 8.10.</block>
+  <block id="ef43a445337b117115c02edfcfe08891" category="list-text">Compatibilidad con Rocky Linux 10.2, 10.1, 10.0, 9.8, 9.7, 9.6, 9.4 y 8.10.</block>
+  <block id="2e7274a2c9a65f652acbe91f397bed9f" category="list-text">Compatibilidad con Oracle Linux 10.2 (kernel rhck), 10.1 (kernels rhck y uek), 10.0 (kernel uek), 9.8 (kernel uek), 9.7 (kernels rhck y uek) y 9.6 (kernel rhck).</block>
+  <block id="b86e2db4828eaf1740d0b997fe3f70f2" category="inline-link-macro">Descubre cómo cambiar al nombre común heredado del certificado de CA</block>
+  <block id="af453ff05b5fcc2b767b615d2b857cb9" category="list-text">Los certificados de CA autofirmados ahora incluyen un identificador único por instalación en su nombre común, por ejemplo<block ref="effe47a45fdc5d2560c8fc38b0ca8ae8" prefix=" " category="inline-code"></block>. Esto te permite registrar varias instancias de ONTAP Mediator en el mismo clúster de ONTAP. Si tu ONTAP Mediator debe emparejarse con una versión de ONTAP que no reconozca el identificador, puedes cambiar al nombre común fijo heredado. <block ref="3f825e43ecbe7c9dbc8507850bc438a7" category="inline-link-macro-rx"></block>.</block>
+  <block id="e205283da14a3d6b58f809c0549b33d7" category="list-text">Compatibilidad con Rocky Linux 10.2, 10.1, 10.0, 9.8 y 8.10.</block>
+  <block id="7c7cab765971bcfc19313a61f259b843" category="list-text">Compatibilidad con Rocky Linux 10.1, 10.0, 9.8 y 8.10.</block>
+  <block id="712e8bca8388659a64a5f654355dd06a" category="list-text">Compatible: 9.5.</block>
+  <block id="1fbd3989e16dbb32f50e3ba9a4f7c28c" category="list-text">Recomendado: 10.1, 10.0, 9.7, 9.6, 9.4 y 8.10.</block>
+  <block id="38df39852af92e2295cd2888c64e39ee" category="list-text">Compatibilidad con Rocky Linux 10.1, 10.0, 9.7 y 8.10.</block>
+  <block id="e0efa32cc2e6381e2b6b36e1af09b1f5" category="list-text">Recomendado: 10.0, 9.6, 9.4 y 8.10.</block>
+  <block id="0669d5ab361879d46b319a5207b8799e" category="list-text">Compatibilidad con Rocky Linux 10.0, 9.6, 9.4 y 8.10.</block>
+  <block id="095fd0c0dfcdda2b0da41ce38023a276" category="list-text">Compatible: 8.9, 8.7, 8.6, 8.5 y 8.4.</block>
+  <block id="47fefe69a20af50fd734f829a6c594fd" category="list-text">Recomendadas: 9.4, 9.2, 9.0, 8.10 y 8.8.</block>
+  <block id="462e7200dd50a7aa434555788b549c95" category="sidebar">Cambiar al nombre común del certificado de CA heredado</block>
 </blocks>

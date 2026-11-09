@@ -29,6 +29,10 @@ systemctl stop ontap_mediator
 ----
 . Detén SCST:
 +
+
+NOTE: Omite este paso si has instalado ONTAP Mediator con soporte exclusivo para HTTPS.
+
++
 [source, cli]
 ----
 systemctl stop mediator-scst
@@ -56,6 +60,10 @@ Para volver a activar ONTAP Mediator, sigue estos pasos:
 systemctl enable ontap_mediator mediator-scst
 ----
 . Inicia SCST:
++
+
+NOTE: Omite este paso si has instalado ONTAP Mediator con soporte exclusivo para HTTPS.
+
 +
 [source, cli]
 ----

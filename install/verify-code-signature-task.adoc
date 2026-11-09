@@ -59,28 +59,28 @@ El certificado utilizado para generar la clave
 
 
  a| 
-`ontap-mediator-1.12.1`
+`ontap-mediator-1.13.0`
  a| 
-El ejecutable de instalación del producto para la versión 1.12
+El ejecutable de instalación del producto para la versión 1.13
 
 
 
  a| 
-`ontap-mediator-1.12.1.sig`
+`ontap-mediator-1.13.0.sig`
  a| 
 La firma del instalador, a la que se le ha aplicado un hash SHA-256 y luego se ha firmado con RSA usando la clave csc-prod
 
 
 
  a| 
-`ontap-mediator-1.12.1.sig.tsr`
+`ontap-mediator-1.13.0.sig.tsr`
  a| 
 La solicitud de revocación que utilizará OCSCP para la firma del instalador
 
 
 
  a| 
-`ontap-mediator-1.12.1.tsr`
+`ontap-mediator-1.13.0.tsr`
  a| 
 El archivo de solicitud de firma con marca de tiempo
 
@@ -141,7 +141,7 @@ openssl verify -untrusted tsa-prod-chain-ONTAP-Mediator.pem -CApath ${OPENSSLDIR
 +
 El comando falla si el certificado de comprobación de la firma del código o el certificado de marca de tiempo ha caducado o no es válido. Descarga una versión más reciente de ONTAP Mediator.
 
-. Verifica los archivos `ontap-mediator-1.12.1.sig.tsr` y `ontap-mediator-1.12.1.tsr` usando los certificados asociados:
+. Verifica los archivos `ontap-mediator-1.13.0.sig.tsr` y `ontap-mediator-1.13.0.tsr` usando los certificados asociados:
 +
 [role="tabbed-block"]
 ====
@@ -149,14 +149,14 @@ El comando falla si el certificado de comprobación de la firma del código o el
 --
 [source, cli]
 ----
-openssl ts -verify -data ontap-mediator-1.12.1.sig -in ontap-mediator-1.12.1.sig.tsr -CAfile tsa-prod-chain-ONTAP-Mediator.pem -untrusted tsa-prod-ONTAP-Mediator.pem
+openssl ts -verify -data ontap-mediator-1.13.0.sig -in ontap-mediator-1.13.0.sig.tsr -CAfile tsa-prod-chain-ONTAP-Mediator.pem -untrusted tsa-prod-ONTAP-Mediator.pem
 ----
 --
 .OpenSSL 1.x
 --
 [source, cli]
 ----
-openssl ts -verify -data ontap-mediator-1.12.1 -in ontap-mediator-1.12.1.tsr -CAfile tsa-prod-chain-ONTAP-Mediator.pem -partial_chain
+openssl ts -verify -data ontap-mediator-1.13.0 -in ontap-mediator-1.13.0.tsr -CAfile tsa-prod-chain-ONTAP-Mediator.pem -partial_chain
 ----
 --
 ====
@@ -173,7 +173,7 @@ openssl -dgst -verify
 +
 [source, cli]
 ----
-openssl dgst -sha256 -verify ONTAP-Mediator-production.pub -signature ontap-mediator-1.12.1.sig ontap-mediator-1.12.1
+openssl dgst -sha256 -verify ONTAP-Mediator-production.pub -signature ontap-mediator-1.13.0.sig ontap-mediator-1.13.0
 ----
 
 
